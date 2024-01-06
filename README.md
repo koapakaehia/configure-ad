@@ -375,6 +375,6 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <p>
 
 - Confirm successful logins on the client computer.
-- Congratulations, you have reached the end of the process.
+- Congratulations! You have successfully completed the step-by-step guide.
 </p>
 <br />
