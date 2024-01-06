@@ -375,6 +375,6 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <p>
 
 - Confirm successful logins on the client computer.
-- Congratulations! You have successfully completed the step-by-step guide.
+- Congratulations, you've successfully completed the step-by-step guide outlining the implementation of on-premises Active Directory within Azure Virtual Machines.
 </p>
 <br />
