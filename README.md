@@ -49,7 +49,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
   - Select the appropriate Resource Group or create a new one (AD-Lab.)
   - Configure networking settings, ensuring that you note the Resource Group and Virtual Network created.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/DHBZtu2.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 2. Set DC-1 NIC Private IP Address:
@@ -58,7 +58,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
   - Under "Settings," select the network interface.
   - Set the NIC's private IP address to be static.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/h2PJALc.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 3. Create Client VM (Client-1):
@@ -68,14 +68,23 @@ This tutorial outlines the implementation of on-premises Active Directory within
   - Configure VM details, setting the VM name as "Client-1," and ensuring 2 vCPUs.
   - Use the same Resource Group and Virtual Network as DC-1.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/tZpRWUr.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/wS1BcX7.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 4. Ensure Connectivity:
 
-  - Verify both VMs are in the same Virtual Network using Azure Network Watcher.
+  - Verify both VMs are in the same Virtual Network.
   - Remote Desktop into Client-1 and open a command prompt.
   - Ping DC-1's private IP address (ping -t <ip address>) to test connectivity.
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+  - Remote Desktop into DC-1 VM.
   - On DC-1, open Windows Firewall settings and allow ICMPv4.
   - Confirm successful ping from Client-1.
 <p>
