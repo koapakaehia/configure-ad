@@ -32,7 +32,11 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <h2>Deployment and Configuration Steps</h2>
 
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/2w6LHCg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/mQGv4Zj.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 <b>SETUP RESOURCES IN AZURE.</b>
@@ -42,7 +46,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
   - Click on "Virtual Machines" and then click "Add."
   - Choose the "Windows Server 2022" image.
   - Fill in the necessary details, such as VM name ("DC-1"), username, and password.
-  - Select the appropriate Resource Group or create a new one.
+  - Select the appropriate Resource Group or create a new one (AD-Lab.)
   - Configure networking settings, ensuring that you note the Resource Group and Virtual Network created.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
