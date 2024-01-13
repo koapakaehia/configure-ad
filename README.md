@@ -35,346 +35,144 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-<b>Deploy a Virtual Machine and utilize Windows Server 2022 to create a Domain Controller.</b>
+<b>SETUP RESOURCES IN AZURE.</b>
 
-- Create a Virtual Machine
-  - Assign the name "DC-1" to the Virtual Machine during the creation process.
-  - Utilize the Windows Server 2022 image for the operating system of the Virtual Machine.
-  - Make a note that the Virtual Machine is associated with a previously created Resource Group.
-  - Take note that the Virtual Machine is deployed in the specified region.
-</p>
-<br />
-
+1. Create Domain Controller VM (DC-1):
+  - Open the Azure Portal (portal.azure.com).
+  - Click on "Virtual Machines" and then click "Add."
+  - Choose the "Windows Server 2022" image.
+  - Fill in the necessary details, such as VM name ("DC-1"), username, and password.
+  - Select the appropriate Resource Group or create a new one.
+  - Configure networking settings, ensuring that you note the Resource Group and Virtual Network created.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-  
-- Generate a username and password for authentication.
-- Select a size with 1 virtual CPU.
-  - (1vCPU), which offers a larger virtual CPU for improved Virtual Machine performance.
-</p>
-<br />
+2. Set DC-1 NIC Private IP Address:
 
+  - Navigate to the "Networking" tab of DC-1 in the Azure Portal.
+  - Under "Settings," select the network interface.
+  - Set the NIC's private IP address to be static.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+3. Create Client VM (Client-1):
 
-- Proceed to the next step by clicking on "Next: Disks."</b>
-- Advance to the next section by selecting "Next: Networking."
-- Make a note that the Virtual Network (Vnet) has been created for the specified configuration
-  - Click on "Review+Create" to assess and finalize the configuration before initiating the creation process.
-  - Click on "Create" once the validation has passed, initiating the actual creation process.
-</p>
-<br />
-
+  - Click on "Virtual Machines" and then click "Add" again.
+  - Choose the "Windows 10" image.
+  - Configure VM details, setting the VM name as "Client-1," and ensuring 2 vCPUs.
+  - Use the same Resource Group and Virtual Network as DC-1.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+4. Ensure Connectivity:
 
-- Configure the Domain Controller's NIC (Network Interface Card) to use a static private IP address.
-  - Select or click on "DC-1" to access or view details and settings associated with the specified entity
-  - Choose the "Networking" option to access and configure network-related settings for the selected entity, "DC-1."
-  - After selecting "Networking," navigate to the specific "Network Interface: dc-1678" to configure and manage the network settings for the associated entity "DC-1."
-  - Proceed to the "IP Configurations" section under "Network Interface: dc-1678" to manage and set the IP configurations for the specified Domain Controller "DC-1."
-</p>
-<br />
-
+  - Verify both VMs are in the same Virtual Network using Azure Network Watcher.
+  - Remote Desktop into Client-1 and open a command prompt.
+  - Ping DC-1's private IP address (ping -t <ip address>) to test connectivity.
+  - On DC-1, open Windows Firewall settings and allow ICMPv4.
+  - Confirm successful ping from Client-1.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+<b>INSTALL ACTIVE DIRECTORY.</b>
 
-- To create "Client-1," you would typically follow a similar process as creating "DC-1."
-  - Choose the "Windows 10" image for the operating system when configuring the image settings for the creation of "Client-1."
-  - Use the same Resource Group and Region for "Client-1" as previously specified for "DC-1."
-</p>
-<br />
+1. Install Active Directory on DC-1:
 
+  - Log in to DC-1 using the provided credentials.
+  - Open PowerShell and run the following command
+  - After installation, promote DC-1 to a domain controller using the Active Directory Domain Services Configuration Wizard.
+  - Specify a new forest name (e.g., "mydomain.com").
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+2. Create Admin and Normal User in AD:
 
-- Proceed to create a username and password for authentication during the setup of "Client-1."
-  - Choose the "Windows 10" image for the operating system when configuring the image settings for the creation of "Client-1."
-  - Choose the size with 2 virtual CPUs (2vCPUs) when configuring the size settings for the creation of "Client-1."
-  - Tick the licensing box to indicate compliance or acknowledgment of licensing requirements during the setup of "Client-1."
-</p>
-<br />
-
+  - Open "Active Directory Users and Computers" on DC-1.
+  - Create an Organizational Unit (OU) named "_EMPLOYEES."
+  - Create another OU named "_ADMINS."
+  - Inside "_EMPLOYEES," create a new user "Jane Doe" with the username "jane_admin."
+  - Add "jane_admin" to the "Domain Admins" Security Group.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+3. Switch to Admin Account:
 
-- Verify that "Client-1" is connected to the identical Virtual Network (Vnet) as the Domain Controller ("DC-1")
-</p>
-<br />
-
+  - Log out or close the Remote Desktop connection to DC-1.
+  - Log back in as "mydomain.com\jane_admin."
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-<b>Verify that the client VM can establish a connection with the DC VM without encountering any problems.</b>
+<b>JOIN CLIENT-1 TO DOMAIN.</b>
+1. Join Client-1 to Domain:
 
-- Log in to the "Client-1" virtual machine using Remote Desktop.
-</p>
-<br />
-
+   - In the Azure Portal, navigate to "Virtual Machines" and select Client-1.
+  - Configure VM details, ensuring 2 vCPUs.
+  - Under "Settings," go to "Networking," and set DNS settings to DC's private IP.
+  - Restart Client-1 from the Azure Portal.
+  - Log in to Client-1 as the original local admin (labuser) and join it to the domain.
+  - On DC-1, verify that Client-1 appears in ADUC (Active Directory Users and Computers) under the "Computers" container.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-<b>Verify that the client VM can establish a connection with the DC VM without encountering any problems.</b>
+2. Organize Clients in OU:
 
-- Execute the command "ping -t" to continuously ping the private IP address of "DC-1" and assess the network connectivity.
-</p>
-<br />
-
+  - (Optional) In ADUC, create a new OU named "_CLIENTS."
+  - Move Client-1 into the "_CLIENTS" OU for organizational purposes.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+<b>SETUP REMOTE DESKTOP.</b>
+1. Setup Remote Desktop:
 
-- Access the Domain Controller by logging in with the appropriate credentials.
-  - Using the previously created username and password. 
-</p>
-<br />
-
+  - Log into Client-1 as "mydomain.com\jane_admin."
+  - Right-click on "This PC," select "Properties," and click "Remote settings."
+  - In the "Remote" tab, click "Allow remote connections to this computer."
+  - Click "Select Users," add "DOMAIN\domain users," and grant remote access.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+2. Verify Remote Desktop Access:
 
-- Enable ICMPv4 on local windows firewall
-  - Perform a search for "firewall" to access and configure firewall settings on your system.
-  - Launch the "Windows Defender Firewall with Advanced Security" to access and configure advanced firewall settings on your system.
-  - Choose "Inbound Rules" to manage and configure rules for incoming network traffic in the Windows Defender Firewall.
-  - Afterward, choose "Sort by Protocol" to organize and view inbound rules based on the protocol in the Windows Defender Firewall.
-</p>
-<br />
-
+  1. Log into Client-1 as a normal, non-admin user.
+  2. Open Remote Desktop Connection, enter Client-1's name, and log in as a regular user.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-<b>Install Active Directory (AD) on Windows Server</b>
+<b>CREATE ADDITIONAL USERS.</b>
 
-- Log in to "DC-1" using the appropriate credentials.
-  - Log in to the "DC-1" server using the appropriate credentials.
-  - Open "Server Manager" and select "Add Roles and Features."
-  - In the "Add Roles and Features Wizard," choose "Active Directory Domain Services."
-  - Then proceed to install by clicking "Install."
-</p>
-<br />
+1. Create Additional Users:
 
+  - Log into DC-1 as jane_admin.
+  - Open PowerShell ISE as an administrator.
+  - Copy the script from GitHub.
+- Run the script to create additional user accounts.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+2. Verify Accounts:
 
-- Promote the server to operate as a Domain Controller.
-</p>
-<br />
-
+  - Open ADUC on DC-1 and observe the newly created accounts in the appropriate OU.
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+<b>FINISH.</b>
+1. Finish:
 
-- Set up a new forest, and for the domain name, choose "mydomain.com" (this can be customized, but remember the selected name).
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Restart the system, and after the reboot, log back into "DC-1" user: (domain)\labuser"
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-<b>Generate both an administrative and a regular user account.</b>
-
-- Within Active Directory Users and Computers.
-  - Create an Organizational Unit (OU) with the name '_EMPLOYEES'."
-  - Create a new Organizational Unit (OU) and designate it as '_ADMINS'."
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Establish a new administrator user
-  - Identify the individual as Jane Doe.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Create username & password:
-  - Identify the individual as Jane Doe.
-  - Assign the username 'jane_admin' and the password 'Password1'.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Right click user, properties, Member of
-  - Add jane_admin to the “Domain Admins” Security Group
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-<b>Join Client-1 into your domain.</b>
-  
-- Configure the DNS settings for Client-1 to the private IP address of the DC from the Azure Portal.
-  - Navigate to Client-1
-  - Access the Networking tab.
-  - Proceed to the Network Interface named 'client-1577
-  - and configure the DNS servers.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-  
-- Initiate a restart of the Client-1 virtual machine through the Azure Portal.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-  
-- Access Client-1 via Remote Desktop using the credentials of the original local administrator, 'labuser'.
-- Integrate Client-1 into the domain, keeping in mind that the computer will restart.
-  - Following the restart, right-click on the Start menu
-  - Navigate to 'System,'
-  - And proceed to 'Rename This PC'.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-  
-- During the domain integration process, a permission request will prompt.
-  - Log in using the credentials '(domain)\jane_admin,'
-  - And expect the computer to restart afterward.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-  
-- Access the Domain Controller on Client-1.
-  - By logging in using the domain associated with the Domain Controller and the credentials of Client-1.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-  
-- Confirm the presence of Client-1 in the Active Directory Users and Computers interface.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-<b>Configure Remote Desktop access for non-administrative users on the client computer.</b>
-
-- Sign in to Client-1 using the credentials '(domain)\jane_admin'.
-  - Access the system properties on the client computer.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Navigate to the 'Remote Desktop' settings.
-  - and allow remote desktop access to 'domain users'.
-- Now users with non-administrative privileges can log in to Client-1.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-<b>Generate additional user accounts and verify their login capabilities.</b>
-
-- Sign in to DC-1 using the credentials of 'jane_admin.'
-- Then launch PowerShell ISE as an 'Administrator.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Generate a new file and paste the script from the provided link
-  - (https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1).
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Run the script and monitor the creation of accounts as it progresses.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Access Active Directory Users and Computers (ADUC) and observe the newly created accounts in the designated Organizational Unit (OU).
-  - Try logging into Client-1 using one of the accounts created by referencing the password provided in the script.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-- Confirm successful logins on the client computer.
-- Congratulations, you've successfully completed the step-by-step guide outlining the implementation of on-premises Active Directory within Azure Virtual Machines.
+  - Verify the functionality and access for the created users on Client-1.
+  - Ensure successful logins for both administrative and non-administrative users.
+  - Confirm that organizational units in ADUC reflect the desired structure.
 </p>
 <br />
