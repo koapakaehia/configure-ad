@@ -48,7 +48,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 - Select the appropriate Resource Group or create a new one.
 - Configure networking settings, ensuring that you note the Resource Group and Virtual Network created.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/RQXXC7P.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
@@ -57,7 +57,7 @@ Step 2: Set DC-1 NIC Private IP Address
 - Under "Settings," select the network interface.
 - Set the NIC's private IP address to be static.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/iDIBSIa.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
@@ -66,15 +66,30 @@ Step 3: Create Client VM (Client-1)
 - Choose the "Windows 10" image.
 - Configure VM details, setting the VM name as "Client-1," and ensuring 2 vCPUs.
 - Use the same Resource Group and Virtual Network as DC-1.
+- Verify both VMs are in the same Virtual Network.
+<p>
+<img src="https://i.imgur.com/EGCNlHC.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/NGs6bs7.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+
+Step 4: Ensure Connectivity
+
+- Remote Desktop into Client-1 and open a command prompt.
+- Ping DC-1's private IP address (ping -t <ip address>) to test connectivity.
+<p>
+<img src="https://i.imgur.com/kN3k8aT.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
-Step 4: Ensure Connectivity
-- Verify both VMs are in the same Virtual Network.
-- Remote Desktop into Client-1 and open a command prompt.
-- Ping DC-1's private IP address (ping -t <ip address>) to test connectivity.
+- Remote Desktop into DC-1
 - On DC-1, open Windows Firewall settings and allow ICMPv4.
 - Confirm a successful ping from Client-1.
 <p>
