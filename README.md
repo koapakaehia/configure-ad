@@ -177,5 +177,6 @@ Step 13: Finish
 <img src="https://i.imgur.com/pU5A58S.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
+<b>Congratulations on successfully setting up your Azure environment and Active Directory integration!</b>
 </p>
 <br />
