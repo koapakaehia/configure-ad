@@ -85,29 +85,39 @@ Step 4: Ensure Connectivity
 </p>
 <p>
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/U9FM0Ws.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
 - Remote Desktop into DC-1
-- On DC-1, open Windows Firewall settings and allow ICMPv4.
+- On DC-1, open Windows Firewall settings and enable ICMPv4.
 - Confirm a successful ping from Client-1.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/rzeSb0f.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
 Step 5: Install Active Directory on DC-1
 - Log in to DC-1 using the provided credentials.
+    - On VM you can open command line and type “hostname” to see which VM you are on. 
 - Install Active Directory:
     - Add roles and features.
     - Check Active Directory Domain Services.
     - Add features and install.
+<p>
+<img src="https://i.imgur.com/MJ0hp9j.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/wElx0Tp.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+
 - Promote DC-1 to a domain controller using the Active Directory Domain Services Configuration Wizard:
     - Set up a new forest as "mydomain.com" (customize as needed).
     - Restart and log back into DC-1 as user: (domain)\labuser.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/RwgTCUM.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
@@ -115,6 +125,11 @@ Step 6: Create Admin and Normal User in AD
 - Open "Active Directory Users and Computers" on DC-1.
 - Create an Organizational Unit (OU) named "_EMPLOYEES."
 - Create another OU named "_ADMINS."
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+
 - Inside "_EMPLOYEES," create a new user "Jane Doe" with the username "jane_admin."
 - Right-click the user, go to properties, Member of, and add "jane_admin" to the "Domain Admins" Security Group.
 <p>
