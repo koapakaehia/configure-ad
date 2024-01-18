@@ -214,9 +214,8 @@ Step 11: Verify Accounts
 <p>
 
 Step 12: Finish
-- Verify the functionality and access for the created users on Client-1.
-- Ensure successful logins for both administrative and non-administrative users.
-- Confirm that organizational units in ADUC reflect the desired structure.
+- Attempt to log in to Client-1 using one of the accounts (make a note of the password in the script).
+- Successfull log in to the Client computer..
 <p>
 <img src="https://i.imgur.com/pU5A58S.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
