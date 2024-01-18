@@ -126,14 +126,19 @@ Step 6: Create Admin and Normal User in AD
 - Create an Organizational Unit (OU) named "_EMPLOYEES."
 - Create another OU named "_ADMINS."
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/oC5qwAQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
-- Inside "_EMPLOYEES," create a new user "Jane Doe" with the username "jane_admin."
-- Right-click the user, go to properties, Member of, and add "jane_admin" to the "Domain Admins" Security Group.
+- Inside "_ADMINS," create a new user "Jane Doe" with the username "jane_admin."
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/sZv9nWU.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+
+- Right-click the user(jane doe,) go to properties, Member of, and add "jane_admin" to the "Domain Admins" Security Group.
+<p>
+<img src="https://i.imgur.com/s62yvFv.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
@@ -141,13 +146,22 @@ Step 7: Switch to Admin Account
 - Log out or close the Remote Desktop connection to DC-1.
 - Log back in as "mydomain.com\jane_admin."
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/NTktUy0.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
 Step 8: Join Client-1 to Domain
 - From the Azure Portal, set Client-1’s DNS settings to the DC’s Private IP address.
 - Restart Client-1 VM from the Azure Portal.
+<p>
+<img src="https://i.imgur.com/bKXt4y3.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/RZ5Jc2e.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+
 - Log in to Client-1 (Remote Desktop) as the original local admin (labuser).
 - Join it to the domain:
     - Right-click the start menu.
@@ -159,47 +173,47 @@ Step 8: Join Client-1 to Domain
     - Log in to Domain Controller on Client-1 using Client-1 and the domain associated with the Domain Controller.
 - Verify Client-1 shows up in Active Directory Users and Computers.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/yXrQKbe.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/mXWnR4d.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
 Step 9: Setup Remote Desktop
 - Log into Client-1 as "mydomain.com\jane_admin."
-- Right-click on "This PC," select "Properties," and click "Remote settings."
-- In the "Remote" tab, click "Allow remote connections to this computer."
+- Right-click on "This PC," select "Systems," and click "Remote desktop."
+- In the "Remote Desktop" tab, click "Select users that can remotely access this computer."
 - Click "Select Users," add "DOMAIN\domain users," and grant remote access.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/csDJDH3.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
-Step 10: Verify Remote Desktop Access
-- Log into Client-1 as a normal, non-admin user.
-- Open Remote Desktop Connection, enter Client-1's name and log in as a regular user.
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-
-Step 11: Create Additional Users
+Step 10: Create Additional Users
 - Log into DC-1 as jane_admin.
 - Open PowerShell ISE as an administrator.
-- Copy the script from GitHub.
+- Copy the script from [GitHub](https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1).
 - Run the script to create additional user accounts.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/DF3do1L.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
-Step 12: Verify Accounts
+Step 11: Verify Accounts
 - Open ADUC on DC-1 and observe the newly created accounts in the appropriate OU.
 - Attempt to log into Client-1 with one of the accounts (take note of the password in the script).
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/FNHK1BQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+<p>
+<img src="https://i.imgur.com/LUSwHLB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 
-Step 13: Finish
+Step 12: Finish
 - Verify the functionality and access for the created users on Client-1.
 - Ensure successful logins for both administrative and non-administrative users.
 - Confirm that organizational units in ADUC reflect the desired structure.
